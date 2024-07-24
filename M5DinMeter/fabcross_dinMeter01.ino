@@ -46,7 +46,7 @@ void loop() {
   // ボタンを押すとモードが変わる
   if (DinMeter.BtnA.wasPressed()) {
     dispMode = (dispMode + 1) % 2;
-    DinMeter.Encoder.write(price);
+    DinMeter.Encoder.write(price); // 現在の価格をエンコーダーの値にする
   }
   
   canvasA.pushSprite(&display, 20, 0);

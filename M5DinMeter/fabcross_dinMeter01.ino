@@ -43,7 +43,7 @@ void loop() {
     canvasA.printf(" ←");
   }
 
-  // ノブを押すとモードが変わる
+  // ボタンを押すとモードが変わる
   if (DinMeter.BtnA.wasPressed()) {
     dispMode = (dispMode + 1) % 2;
     DinMeter.Encoder.write(price);

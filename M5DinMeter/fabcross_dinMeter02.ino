@@ -1,11 +1,11 @@
 #include "M5DinMeter.h"
 #include "M5GFX.h"
 #include "M5Unified.h"
-#include "UNIT_SCALES.h"  // 計測ユニットを使うために必要
+#include "UNIT_SCALES.h"  // 計量ユニットを使うために必要
 
 M5GFX display;
 M5Canvas canvasB(&display);
-UNIT_SCALES scales;  // 計測ユニットを定義
+UNIT_SCALES scales;  // 計量ユニットを定義
 
 void setup() {
   auto cfg = M5.config();
@@ -15,7 +15,7 @@ void setup() {
   display.fillScreen(TFT_BLACK);
   canvasB.createSprite(display.width(), display.height());
 
-// 計測ユニットとの接続を確認し、成功したらLEDを光らせる
+// 計量ユニットとの接続を確認し、成功したらLEDを光らせる
   while (!scales.begin(&Wire, 2, 1, DEVICE_DEFAULT_ADDR)) {  
     DinMeter.Display.print("scales connect error");
     delay(1000);
@@ -23,14 +23,14 @@ void setup() {
   scales.setLEDColor(0x001000);
 }
 
-float unit = 150; // 重さの単位
+float unit = 150; // 商品一個あたりの重さ
 int dispMode = 0;  // モード切り替え用のフラグ
 long oldPosition = -999;
 
 void loop() {
   DinMeter.update();
 
-  // 基準の重さを調整する
+  // 商品一個あたりの重さを調整する
   if (dispMode == 1) {
     long newPosition = DinMeter.Encoder.read();
     if (newPosition != oldPosition) {
@@ -53,7 +53,7 @@ void loop() {
   canvasB.setCursor(0, 0);
   canvasB.printf("Weight: %.0fg\n", weight); //重さを表示
   canvasB.printf("Stock: %dpcs\n", int(weight / unit)); // 個数を表示
-  canvasB.printf("Unit: %.0fg/pcs", unit); //基準の重さを表示
+  canvasB.printf("Unit: %.0fg/pcs", unit); //商品一個あたりの重さを表示
   if (dispMode == 1) {
     canvasB.printf(" ←");
   }
